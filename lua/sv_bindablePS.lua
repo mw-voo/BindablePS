@@ -23,52 +23,52 @@ net.Receive( "BindablePS_Request", function( len, ply )
 		for _,v in pairs(PS.Items) do
 			if string.lower(v.Name) == string.lower(item_net) then
 				print("Found a match for set ".. v.Name)
-				ps_item = v
+				ps_item = PS.Items[v]
 				break
 			end
 		end
 	else
-		ps_item = item_net
+		ps_item = PS.Items[item_net]
+		print("by passing direct name")
 	end
 	if ps_item == nil then return end
-	print("Item not nil, continuing")
+	print(ps_item.Name .. " not nil, continuing")
 
 	if ply:getBindCooldown() > 0 then
+		print("Cooldown tolerated")
 		net.Start("BindablePS_Cooldown")
 		net.WriteInt(ply:getBindCooldown(),10)
 		net.Send(ply)
 		return 
 	end
 
-	if ply:PS_HasItem(ps_item)  then	
+	if ply:PS_HasItemEquipped(ps_item.ID) then
+		ply:PS_HolsterItem(ps_item.ID)
+	end
+	if ply:PS_HasItem(ps_item.ID)  then	
 		print("Preparing for clusterfuck")
-				local c_class = nil
-				if ps_item.WeaponClass ~= nil then
-					c_class = true
-				elseif ps_item.Attachment ~= nil then
-					c_class = false
-				else
-					c_class = nil
-				end
-				print("c_class == " .. c_class)
+
 				for k,v in pairs(PS.Items) do
-					if (v.WeaponClass ~= nil or v.Attachment ~= nil  and v.Equiped == true and c_class or !c_class) then
+					if (v.WeaponClass ~= nil or v.Attachment ~= nil)  and v.Equiped == true then
 						print("Same class, holstering")
-						ply:PS_HolsterItem(v)
+						ply:PS_HolsterItem(v.ID)
 					end
 				end
 				
 			print("Equiping")
-			ply:PS_EquipItem(ps_item)
+			ply:PS_EquipItem(ps_item.ID)
 			if c_class then 
-				ply:SelectWeapon(ps_item.WWeaponClass)
+				ply:SelectWeapon(ps_item.WeaponClass)
 				print("Is weapon, selecting")
 			end
 			print("Done")
 			ply:setBindCooldown(GetConVar("ps_bind_cooldown"):GetInt())
 			return true	
 	else
+		print("Player does not have " .. ps_item.Name)
 	end
 
 
 end)
+
+

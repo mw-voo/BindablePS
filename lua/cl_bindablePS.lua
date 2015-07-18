@@ -1,5 +1,3 @@
-local cd = false
---bind x ps_weaponname
 function BindablePS(ply,stz,args,argz)
 	if !args[1] then return end
 	print("Bind pressed")
