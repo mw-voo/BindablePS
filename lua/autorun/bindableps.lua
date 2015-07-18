@@ -12,7 +12,7 @@ if SERVER then
 	CreateConVar("ps_bind_reservedranks", 0, 1408, "Enable/disable the ps_bind command to specific ranks")
 	CreateConVar("ps_bind_autoswitch", 1,1408, "Allows to autoswitch to the binded weapon OnEquip")
 	CreateConVar("ps_bind_holsterunholster", 0, "If set to 1, users with the item out will only holster and will not re-equip when called.")
-	MsgAll("Registered bindable_pointshop - By Voodoo(STEAM_0:1:28607710)")
+	MsgAll("Registered BindablePS - By Voodoo(STEAM_0:1:28607710)")
 end
 if CLIENT then
 	include("cl_bindablePS.lua")

@@ -16,19 +16,18 @@ function EquipBind(ply)
 	print("Item -> " .. item_net)
 
 	local ps_item = nil
-
+	if PS.Items[item_net] then
+		ps_item = PS.Items[item_net]
+		print("Direct Class Name")
+	else
 	--messy way of figuring out if the string is a item_id or a item  name
-	if !PS.Items[item_net] then
-		for _,v in pairs(PS.Items) do
-			if string.lower(v.Name) == string.lower(item_net) then
+		for k,v in pairs(PS.Items) do
+			if string.lower(PS.Items[k].Name) == string.lower(item_net) then
 				print("Matched Named String ".. PS.Items[k].Name)
 				ps_item = PS.Items[k]
 				break
 			end
 		end
-	else
-		ps_item = PS.Items[item_net]
-		print("Direct Class Name")
 	end
 	if !ply:PS_HasItem(ps_item.ID) then
 		ply:PrintMessage(HUD_PRINTTALK,"You do not have that pointshop item!")
@@ -69,12 +68,13 @@ function EquipBind(ply)
 	local strip = function() print("Removing") ply:StripWeapon(ply:GetActiveWeapon().ClassName) end
 
 	if ps_item.WeaponClass ~= nil and !ply:PS_HasItemEquipped(ps_item.ID) then	
+		local fWeapInUse = false
 		print("Non Pointshop Weapon")
 		if IsValid(ply:GetActiveWeapon()) then
 			--Helpful tid bit so it doesn't weapon "Non Weapons" in the gamemode TTT
 			if GetConVarString("gamemode") == "terrortown" then
 				local ignore = { ["weapon_zm_improvised"]=true,["weapon_ttt_unarmed"]=true,["weapon_zm_carry"]=true}
-				local fWeapInUse = false
+				
 				for k,v in pairs(ignore) do
 					if ply:GetActiveWeapon().ClassName == k then
 						print("Found ignored weapon ->" .. k)
