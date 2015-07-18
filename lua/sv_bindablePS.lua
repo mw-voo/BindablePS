@@ -14,7 +14,8 @@ function EquipBind(ply)
 	print("Preform 1")
 	local item_net = net.ReadString()
 	print("Item -> " .. item_net)
-
+	
+	
 	local ps_item = nil
 	if PS.Items[item_net] then
 		ps_item = PS.Items[item_net]
