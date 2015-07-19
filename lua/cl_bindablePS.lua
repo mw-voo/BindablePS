@@ -1,6 +1,3 @@
-
-
-
 function BindablePS(ply,stz,args,argz)
 	if !args[1] then return end
 	MsgN("[BindablePS] Keyed=" .. argz)
@@ -12,7 +9,7 @@ end
 concommand.Add("ps_bind", BindablePS, nil,nil,1024)
 
 net.Receive("BindablePS_Cooldown", function(len,ply)
-	local coolleft = net.ReadInt(10) 
+	local coolleft = net.ReadInt(10)
 	chat.AddText("[BindablePS] Please wait " .. (math.Round(coolleft) or -1) .. " more second(s) before requesting this bound item.")
 
 end)

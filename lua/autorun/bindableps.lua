@@ -1,5 +1,8 @@
 if SERVER then
-
+	if PS == nil then
+		print("Error. Pointshop is not installed yet BindablePS is.")
+		return
+	end
 	util.AddNetworkString("BindablePS_Cooldown")
 	util.AddNetworkString("BindablePS_Request")
 
@@ -10,7 +13,7 @@ if SERVER then
 	CreateConVar("ps_bind_cooldown", 15, 1408, "Changes the cooldown time to use a pointshop bind")
 
 
-	CreateConVar("ps_bind_allowedranks", "user", 1408, "The specific ranks that are allowed if reservedranks are enabled.")
+	CreateConVar("ps_bind_allowedranks", "", 1408, "The specific ranks that are allowed if reservedranks are enabled.")
 
 
 	CreateConVar("ps_bind_reservedranks", 0, 1408, "Enable/disable the ps_bind command to specific ranks")
@@ -20,10 +23,9 @@ if SERVER then
 
 
 	CreateConVar("ps_bind_holsterunholster",0, 1408, "If set to 1, users with the item out will only holster and will not re-equip when called.")
-
-
-	MsgAll("Registered BindablePS - By Voodoo(STEAM_0:1:28607710)")
+	
 end
 if CLIENT then
 	include("cl_bindableps.lua")
 end
+print("Registered BindablePS - By Voodoo(STEAM_0:1:28607710)")

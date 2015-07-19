@@ -27,6 +27,7 @@ function EquipBind(ply)
 		end
 	end
 	if !ply:PS_HasItem(ps_item.ID) then
+		ply:PrintMessage(HUD_PRINTTALK,"You do not have that pointshop item!")
 		return
 	end
 	if ps_item == nil then return end
@@ -81,7 +82,7 @@ function EquipBind(ply)
 		if IsValid(ply:GetActiveWeapon()) then
 			--Helpful tid bit so it doesn't remove "Non Weapons" in the gamemode TTT
 			if GetConVarString("gamemode") == "terrortown" then
-				local ignore = { ["weapon_zm_improvised"]=true,["weapon_ttt_unarmed"]=true,["weapon_zm_carry"]=true,["weapon_ttt_wtester.lua"=true]}
+				local ignore = { ["weapon_zm_improvised"]=true,["weapon_ttt_unarmed"]=true,["weapon_zm_carry"]=true}
 				
 				for k,v in pairs(ignore) do
 					if ply:GetActiveWeapon().ClassName == k then
@@ -130,7 +131,7 @@ net.Receive( "BindablePS_Request", function( len, ply )
 	if !IsValid(ply) then return end
 	if GetConVar("ps_bind_reservedranks"):GetBool() then
 		local autolistranks = string.Split(GetConVar("ps_bind_allowedranks"):GetString(),",") or {} 
-		if #autolistranks > 0
+		if #autolistranks > 0 then
 			for _,v in pairs(autolistranks) do
 				if ply:PS_GetUsergroup() == string.Trim(v,",") then
 					EquipBind(ply)
@@ -138,13 +139,17 @@ net.Receive( "BindablePS_Request", function( len, ply )
 					
 				end
 			end
+		else
+			EquipBind(ply)
 		end
 	
+		ply:PrintMessage(HUD_PRINTTALK,"Unable to use BindablePS, not in the right usergroup!")
 		return
 	else
 		EquipBind(ply)
 		return
 	end
+
 	
 
 
