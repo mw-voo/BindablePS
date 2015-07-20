@@ -1,8 +1,5 @@
 if SERVER then
-	if PS == nil then
-		print("Error. Pointshop is not installed yet BindablePS is.")
-		return
-	end
+
 	util.AddNetworkString("BindablePS_Cooldown")
 	util.AddNetworkString("BindablePS_Request")
 
