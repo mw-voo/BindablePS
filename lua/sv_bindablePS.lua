@@ -8,12 +8,11 @@ function meta:getBindCooldown()
 	local left = self.Cooldown or CurTime()
 	return left - CurTime()
 end
-function EquipBind(ply)
+
+
+function EquipBind(ply,item_net)
 	if not ply:PS_CanPerformAction() then return end
 
-	local item_net = net.ReadString()
-	
-	
 	local ps_item = nil
 	if PS.Items[item_net] then
 		ps_item = PS.Items[item_net]
@@ -59,30 +58,11 @@ function EquipBind(ply)
 	end
 
 	if ps_item.WeaponClass ~= nil and !ply:PS_HasItemEquipped(ps_item.ID) then
-
-		// local torm = {}
-		// for k,v in pairs(PS.Items) do
-		// 	local p_weap = PS.Items[k]
-		// 	if p_weap.WeaponClass ~= nil and ply:PS_HasItemEquipped(p_weap.iD) then
-		// 		table.insert(torm, p_weap.WeaponClass)
-		// 	end
-		// end
-		// --remove ammo
-		// for r,o in pairs(ply:GetWeapons()) do
-		// 	if Isvalid(o) then
-		// 		if torm[o.ClassName] then
-		// 			ply:RemoveAmmo(o.Ammo1(), o:GetPrimaryAmmoType() )
-		// 		end
-		// 	end
-		
-			--Player:RemoveAmmo( number ammoCount, string ammoName )
-			--Player:GetWeapons()
-		//end
 		local fWeapInUse = false
 		if IsValid(ply:GetActiveWeapon()) then
 			--Helpful tid bit so it doesn't remove "Non Weapons" in the gamemode TTT
 			if GetConVarString("gamemode") == "terrortown" then
-				local ignore = { ["weapon_zm_improvised"]=true,["weapon_ttt_unarmed"]=true,["weapon_zm_carry"]=true}
+				local ignore = { ["weapon_zm_improvised"]=true,["weapon_ttt_unarmed"]=true,["weapon_zm_carry"]=true,["weapon_ttt_wtester.lua"]=true}
 				
 				for k,v in pairs(ignore) do
 					if ply:GetActiveWeapon().ClassName == k then
@@ -116,7 +96,7 @@ function EquipBind(ply)
 
 
 
-
+	ply:PrintMessage(HUD_PRINTTALK, "Equipped")
 	ply:PS_EquipItem(ps_item.ID)
 	if GetConVar("ps_bind_autoswitch"):GetBool() and ps_item.WeaponClass ~= nil then 
 		ply:SelectWeapon(ps_item.WeaponClass)
@@ -129,24 +109,25 @@ end
 
 net.Receive( "BindablePS_Request", function( len, ply )
 	if !IsValid(ply) then return end
+	local item_net = net.ReadString()
 	if GetConVar("ps_bind_reservedranks"):GetBool() then
 		local autolistranks = string.Split(GetConVar("ps_bind_allowedranks"):GetString(),",") or {} 
 		if #autolistranks > 0 then
 			for _,v in pairs(autolistranks) do
 				if ply:PS_GetUsergroup() == string.Trim(v,",") then
-					EquipBind(ply)
+					EquipBind(ply, item_net)
 					return 
 					
 				end
 			end
 		else
-			EquipBind(ply)
+			EquipBind(ply, item_net)
 		end
 	
 		ply:PrintMessage(HUD_PRINTTALK,"Unable to use BindablePS, not in the right usergroup!")
 		return
 	else
-		EquipBind(ply)
+		EquipBind(ply,item_net)
 		return
 	end
 
