@@ -25,11 +25,12 @@ function EquipBind(ply,item_net)
 			end
 		end
 	end
+	if ps_item == nil then ply:PrintMessage("Invaild Weapon keyed!") return end
 	if !ply:PS_HasItem(ps_item.ID) then
 		ply:PrintMessage(HUD_PRINTTALK,"You do not have that pointshop item!")
 		return
 	end
-	if ps_item == nil then return end
+	
 
 	if ply:getBindCooldown() > 0 then
 		net.Start("BindablePS_Cooldown")
