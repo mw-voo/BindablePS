@@ -102,7 +102,7 @@ net.Receive( "BindablePS_Request", function( len, ply )
 		local autolistranks = string.Split(GetConVar("ps_bind_allowedranks"):GetString(),",") or {} 
 
 		if #autolistranks > 0 then
-			if autolistranks[1] == "user" then
+			if autolistranks[1] == "user" and #autolistranks == 1 then
 				EquipBind(ply,item_net)
 				return
 			end
