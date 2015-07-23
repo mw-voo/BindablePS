@@ -38,19 +38,8 @@ function EquipBind(ply,item_net)
 		net.Send(ply)
 		return 
 	end
-
-
-
-	--ply:PS_TakeItem(ps_item.ID)
-	--ply:PS_HolsterItem(ps_item.ID)
-	--ply:PS_EquipItem(ps_item.ID)
-
-	--todo
-	--if equiped, holster and remove
-	--If User has the weapon equipped. Holster
 	if ply:PS_HasItemEquipped(ps_item.ID) then
 		ply:PS_HolsterItem(ps_item.ID)
-		--If Holster Unholster is enabled, we'll quit there
 		if GetConVar("ps_bind_holsterunholster"):GetBool() then
 			ply:setBindCooldown(GetConVar("ps_bind_cooldown"):GetInt())
 			return
@@ -81,8 +70,6 @@ function EquipBind(ply,item_net)
 		end
 	else
 		if ps_item.Attachment ~= nil or !ply:PS_HasItemEquipped(ps_item.ID) then
-			--If Category limit is 2
-			--remove first Equipped item
 			local catid = PS:FindCategoryByName(ps_item.Category)
 			if ply:PS_NumItemsEquippedFromCategory(PS:FindCategoryByName(ps_item.Category).Name) >= 2 then
 				for k,v in pairs(PS.Items) do

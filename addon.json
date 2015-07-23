@@ -1,0 +1,11 @@
+{
+	"title"		:	"Bindable Pointshop Items",
+	"type"		:	"ServerContent",
+	"tags"		:	[ "fun" ],
+	"ignore"	:
+	[
+		"*.psd",
+		"*.vcproj",
+		"*.svn*"
+	]
+}
