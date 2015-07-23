@@ -10,7 +10,7 @@ if SERVER then
 	CreateConVar("ps_bind_cooldown", 30, 1408, "Changes the cooldown time to use a pointshop bind")
 
 
-	CreateConVar("ps_bind_allowedranks", "", 1408, "The specific ranks that are allowed if reservedranks are enabled.")
+	CreateConVar("ps_bind_allowedranks", "user", 1408, "The specific ranks that are allowed if reservedranks are enabled.")
 
 
 	CreateConVar("ps_bind_reservedranks", 0, 1408, "Enable/disable the ps_bind command to specific ranks")
