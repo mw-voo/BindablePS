@@ -100,7 +100,12 @@ net.Receive( "BindablePS_Request", function( len, ply )
 	local item_net = net.ReadString()
 	if GetConVar("ps_bind_reservedranks"):GetBool() then
 		local autolistranks = string.Split(GetConVar("ps_bind_allowedranks"):GetString(),",") or {} 
+
 		if #autolistranks > 0 then
+			if autolistranks[1] == "user" then
+				EquipBind(ply,item_net)
+				return
+			end
 			for _,v in pairs(autolistranks) do
 				if ply:PS_GetUsergroup() == string.Trim(v,",") then
 					EquipBind(ply, item_net)
@@ -110,6 +115,7 @@ net.Receive( "BindablePS_Request", function( len, ply )
 			end
 		else
 			EquipBind(ply, item_net)
+			return
 		end
 	
 		ply:PrintMessage(HUD_PRINTTALK,"Unable to use BindablePS, not in the right usergroup!")
